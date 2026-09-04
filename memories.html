@@ -1,0 +1,430 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Yaad Hai Woh Din Phool...</title>
+    <link href="https://fonts.googleapis.com/css2?family=Great+Vibes&family=Pacifico&family=Dancing+Script:wght@700&family=Playfair+Display:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet" />
+    <style>
+      * { margin: 0; padding: 0; box-sizing: border-box; }
+
+      body {
+        min-height: 100vh;
+        overflow-x: hidden;
+        background: linear-gradient(135deg, #1a1a2e 0%, #16213e 40%, #0f3460 70%, #1a1a2e 100%);
+        font-family: 'Playfair Display', serif;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        padding: 40px 20px;
+        position: relative;
+      }
+
+      /* Floating lights */
+      .light {
+        position: fixed;
+        border-radius: 50%;
+        pointer-events: none;
+        animation: floatLight linear infinite;
+        z-index: 0;
+      }
+      @keyframes floatLight {
+        0% { transform: translateY(100vh) rotate(0deg); opacity: 0; }
+        10% { opacity: 0.8; }
+        90% { opacity: 0.6; }
+        100% { transform: translateY(-10vh) rotate(360deg); opacity: 0; }
+      }
+
+      /* Stars */
+      .star {
+        position: fixed;
+        width: 2px;
+        height: 2px;
+        background: #fff;
+        border-radius: 50%;
+        animation: twinkle 2s infinite alternate;
+        z-index: 0;
+      }
+      @keyframes twinkle {
+        0% { opacity: 0.1; transform: scale(0.8); }
+        100% { opacity: 1; transform: scale(1.3); }
+      }
+
+      /* Timeline */
+      .timeline {
+        position: relative;
+        width: 90%;
+        max-width: 700px;
+        z-index: 10;
+      }
+      .timeline::before {
+        content: '';
+        position: absolute;
+        left: 50%;
+        top: 0;
+        bottom: 0;
+        width: 3px;
+        background: linear-gradient(to bottom, transparent, #ffd700, #ffb6c1, #ffd700, transparent);
+        transform: translateX(-50%);
+      }
+
+      .memory-card {
+        background: rgba(255,255,255,0.06);
+        backdrop-filter: blur(15px);
+        border: 1px solid rgba(255,255,255,0.12);
+        border-radius: 20px;
+        padding: 30px 25px;
+        margin-bottom: 50px;
+        position: relative;
+        opacity: 0;
+        transform: translateY(40px);
+        transition: all 0.8s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        box-shadow: 0 15px 40px rgba(0,0,0,0.3);
+      }
+      .memory-card.visible {
+        opacity: 1;
+        transform: translateY(0);
+      }
+      .memory-card:nth-child(odd) {
+        margin-left: 0;
+        margin-right: 55%;
+      }
+      .memory-card:nth-child(even) {
+        margin-left: 55%;
+        margin-right: 0;
+      }
+
+      .memory-card::before {
+        content: '';
+        position: absolute;
+        top: 30px;
+        width: 16px;
+        height: 16px;
+        background: #ffd700;
+        border-radius: 50%;
+        box-shadow: 0 0 15px rgba(255,215,0,0.6);
+        z-index: 2;
+      }
+      .memory-card:nth-child(odd)::before {
+        right: -8%;
+        transform: translateX(50%);
+      }
+      .memory-card:nth-child(even)::before {
+        left: -8%;
+        transform: translateX(-50%);
+      }
+
+      .memory-icon {
+        font-size: 2.5rem;
+        margin-bottom: 10px;
+        display: block;
+      }
+      .memory-card h3 {
+        font-family: 'Great Vibes', cursive;
+        font-size: 1.8rem;
+        color: #ffd700;
+        margin-bottom: 10px;
+        text-shadow: 0 0 10px rgba(255,215,0,0.3);
+      }
+      .memory-card p {
+        color: rgba(255,255,255,0.8);
+        font-size: 1.05rem;
+        line-height: 1.8;
+      }
+      .memory-card .date-tag {
+        display: inline-block;
+        background: linear-gradient(135deg, #ffd700, #ff6b6b);
+        color: #1a1a2e;
+        padding: 3px 12px;
+        border-radius: 20px;
+        font-size: 0.8rem;
+        font-weight: 700;
+        margin-bottom: 12px;
+      }
+
+      /* Section title */
+      .section-title {
+        font-family: 'Great Vibes', cursive;
+        font-size: 3rem;
+        color: #ffd700;
+        text-align: center;
+        margin-bottom: 15px;
+        text-shadow: 0 0 20px rgba(255,215,0,0.3);
+        z-index: 10;
+        position: relative;
+        animation: shimmerTitle 3s ease infinite;
+      }
+      @keyframes shimmerTitle {
+        0%, 100% { text-shadow: 0 0 20px rgba(255,215,0,0.3); }
+        50% { text-shadow: 0 0 40px rgba(255,215,0,0.6), 0 0 60px rgba(255,182,193,0.3); }
+      }
+      .section-subtitle {
+        font-family: 'Dancing Script', cursive;
+        color: rgba(255,255,255,0.6);
+        font-size: 1.2rem;
+        text-align: center;
+        margin-bottom: 50px;
+        z-index: 10;
+        position: relative;
+      }
+
+      /* Bottom button */
+      .bottom-area {
+        z-index: 10;
+        position: relative;
+        text-align: center;
+        margin-top: 30px;
+      }
+      .next-btn {
+        display: inline-block;
+        padding: 16px 45px;
+        background: linear-gradient(135deg, #ffd700, #ff6b6b);
+        border: none;
+        border-radius: 50px;
+        color: #1a1a2e;
+        font-family: 'Pacifico', cursive;
+        font-size: 1.1rem;
+        cursor: pointer;
+        transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        box-shadow: 0 8px 25px rgba(255,215,0,0.3);
+        position: relative;
+        overflow: hidden;
+      }
+      .next-btn::before {
+        content: '';
+        position: absolute;
+        top: 0; left: -100%; width: 100%; height: 100%;
+        background: linear-gradient(90deg, transparent, rgba(255,255,255,0.3), transparent);
+        transition: left 0.5s;
+      }
+      .next-btn:hover::before { left: 100%; }
+      .next-btn:hover {
+        transform: translateY(-3px) scale(1.05);
+        box-shadow: 0 12px 35px rgba(255,215,0,0.5);
+      }
+
+      .tear {
+        position: fixed;
+        width: 10px;
+        height: 16px;
+        background: linear-gradient(to bottom, rgba(255,255,255,0.7), rgba(173,216,230,0.5));
+        border-radius: 50% 50% 50% 50% / 60% 60% 40% 40%;
+        top: -25px;
+        z-index: 100;
+        animation: tearDrop linear forwards;
+        filter: blur(0.5px);
+      }
+      @keyframes tearDrop {
+        0% { transform: translateY(0) scale(0.5); opacity: 0; }
+        10% { opacity: 0.8; transform: scale(1); }
+        100% { transform: translateY(105vh) scale(0.2); opacity: 0; }
+      }
+
+      /* Phool - Flower Petals */
+      .petal {
+        position: fixed;
+        top: -40px;
+        z-index: 50;
+        pointer-events: none;
+        animation: petalFall linear forwards;
+      }
+      @keyframes petalFall {
+        0% { transform: translateY(0) rotate(0deg) translateX(0); opacity: 0; }
+        10% { opacity: 1; }
+        50% { transform: translateY(50vh) rotate(180deg) translateX(40px); }
+        100% { transform: translateY(105vh) rotate(360deg) translateX(-30px); opacity: 0.3; }
+      }
+
+      @media (max-width: 700px) {
+        .timeline::before { left: 20px; }
+        .memory-card:nth-child(odd),
+        .memory-card:nth-child(even) {
+          margin-left: 45px;
+          margin-right: 0;
+        }
+        .memory-card:nth-child(odd)::before,
+        .memory-card:nth-child(even)::before {
+          left: -35px;
+          right: auto;
+          transform: none;
+        }
+        .section-title { font-size: 2.2rem; }
+      }
+    </style>
+  </head>
+  <body>
+    <div id="stars-container"></div>
+    <div id="lights-container"></div>
+    <div id="tears-container"></div>
+    <div id="petals-container"></div>
+
+    <audio id="bgSong" loop>
+      <source src="song.mp3" type="audio/mpeg" />
+    </audio>
+
+    <div class="section-title">Yaad Hai Woh Din Phool...</div>
+    <div class="section-subtitle">Jab hum saath mein the 💛</div>
+
+    <div class="timeline">
+      <div class="memory-card">
+        <span class="memory-icon">🎮</span>
+        <span class="date-tag">The Beginning</span>
+        <h3>Jab Hum Game Mein Mile</h3>
+        <p>
+          Woh din yaad hai? Ek game ki lobby mein achanak tumhari entry hui —
+          aur pata hi nahi chala kab tum mere favourite ban gaye.
+          Kisi ne socha bhi nahi tha ki ek game itni khoobsurat dosti dega. 🥹
+        </p>
+      </div>
+
+      <div class="memory-card">
+        <span class="memory-icon">😂</span>
+        <span class="date-tag">Funny Times</span>
+        <h3>Woh Haste Huye Raatein</h3>
+        <p>
+          Raat ko 2 baje tak baatein karna, funny moments share karna,
+          ek dusre ko roast karna — aur phir bhi has has ke pet dukhna.
+          Tumhari woh hasi yaad hai jo kabhi bhool nahi sakta. 😂💛
+        </p>
+      </div>
+
+      <div class="memory-card">
+        <span class="memory-icon">🎂</span>
+        <span class="date-tag">Birthday Special</span>
+        <h3>Tumhara Birthday Celebrate Hua</h3>
+        <p>
+          Aur woh din aaya — tumhara birthday! Maine socha tha kuch special karna hai.
+          Pata nahi kaise hua par tumhe surprise mila aur tumhari woh smile...
+          uss smile ne sab kuch worth it bana diya. 🎂✨
+          Tumhe dekh ke laga ki kuch logon ki khushi hi sabse bada tohfa hota hai. 🥹
+        </p>
+      </div>
+
+      <div class="memory-card">
+        <span class="memory-icon">🌙</span>
+        <span class="date-tag">Deep Talks</span>
+        <h3>Raat Ki Gehri Baatein</h3>
+        <p>
+          Jab duniya so rahi hoti thi, hum jaag ke baatein karte the.
+          Tumne mujhe sikhaya ki dard baatne se kam hota hai,
+          aur dosti sirf waqt nahi, dil se banti hai.
+          Tum mere liye sirf dost nahi ho — tum ek lesson ho zindagi ka. 🌙
+        </p>
+      </div>
+
+      <div class="memory-card">
+        <span class="memory-icon">🥹</span>
+        <span class="date-tag">Emotions</span>
+        <h3>Phool Tumhari Care Yaad Hai</h3>
+        <p>
+          Jab main down tha, Phool tumne ek word mein sab theek kar diya.
+          Jab maine galti ki, Phool tumne daanta par saath bhi diya.
+          Phool tumhari woh care, woh concern — yeh kisi kitab mein nahi padha.
+          Phool tum sach mein ek teacher ho — life ke asli teacher. 🙏
+        </p>
+      </div>
+
+      <div class="memory-card">
+        <span class="memory-icon">✨</span>
+        <span class="date-tag">Forever</span>
+        <h3>Thank You Phool</h3>
+        <p>
+          Aaj Teacher's Day hai aur main kehna chahta hoon —
+          <strong>Phool tum best ho, yaad hai na woh din jo hum saath bitaye?</strong>
+          Har din ek lesson tha, har moment ek gift tha.
+          Thank you for being my teacher, my friend, my everything. 💛🙏
+        </p>
+      </div>
+    </div>
+
+    <div class="bottom-area">
+      <button class="next-btn" id="nextBtn">Tumhare Liye Kuch Hai 🎁</button>
+    </div>
+
+    <script>
+      // Stars
+      const starsC = document.getElementById('stars-container');
+      for (let i = 0; i < 80; i++) {
+        const s = document.createElement('div');
+        s.className = 'star';
+        s.style.left = Math.random()*100+'%';
+        s.style.top = Math.random()*100+'%';
+        s.style.animationDuration = (Math.random()*3+1)+'s';
+        s.style.animationDelay = Math.random()*3+'s';
+        starsC.appendChild(s);
+      }
+
+      // Floating lights
+      const lightsC = document.getElementById('lights-container');
+      const lColors = ['#ffd700','#ffb6c1','#87ceeb','#dda0dd','#fff'];
+      function createLight() {
+        const l = document.createElement('div');
+        l.className = 'light';
+        const size = Math.random()*10+5;
+        l.style.width = l.style.height = size+'px';
+        l.style.left = Math.random()*100+'%';
+        l.style.background = lColors[Math.floor(Math.random()*lColors.length)];
+        l.style.animationDuration = (Math.random()*10+8)+'s';
+        l.style.boxShadow = `0 0 ${size*2}px ${l.style.background}`;
+        lightsC.appendChild(l);
+        setTimeout(()=>l.remove(), 18000);
+      }
+      setInterval(createLight, 600);
+
+      // Tears
+      const tearsC = document.getElementById('tears-container');
+      function createTear() {
+        const t = document.createElement('div');
+        t.className = 'tear';
+        t.style.left = Math.random()*100+'%';
+        t.style.animationDuration = (Math.random()*3+3)+'s';
+        tearsC.appendChild(t);
+        setTimeout(()=>t.remove(), 6000);
+      }
+      setInterval(createTear, 1200);
+
+      // Phool - Flower Petals
+      const petalsC = document.getElementById('petals-container');
+      const petalColors = ['#ffb6c1','#ff69b4','#ffc0cb','#ff1493','#db7093','#fff0f5','#ffd1dc','#ffa0b4'];
+      function createPetal() {
+        const p = document.createElement('div');
+        p.className = 'petal';
+        const size = Math.random()*20+12;
+        p.style.left = Math.random()*100+'vw';
+        p.style.animationDuration = (Math.random()*4+5)+'s';
+        p.style.animationDelay = Math.random()*2+'s';
+        const color = petalColors[Math.floor(Math.random()*petalColors.length)];
+        p.innerHTML = `<svg width="${size}" height="${size*1.2}" viewBox="0 0 30 36" fill="${color}" xmlns="http://www.w3.org/2000/svg"><path d="M15 0C15 0 30 12 30 22C30 30 23 36 15 36C7 36 0 30 0 22C0 12 15 0 15 0Z" opacity="0.85"/></svg>`;
+        petalsC.appendChild(p);
+        setTimeout(()=>p.remove(), 9000);
+      }
+      setInterval(createPetal, 700);
+      for(let i=0;i<6;i++) createPetal();
+
+      // Music - continue from previous page
+      const bgSong = document.getElementById('bgSong');
+      bgSong.volume = 0.5;
+      bgSong.play().catch(() => {});
+
+      // Scroll reveal
+      const cards = document.querySelectorAll('.memory-card');
+      const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+          if (entry.isIntersecting) {
+            entry.target.classList.add('visible');
+          }
+        });
+      }, { threshold: 0.2 });
+      cards.forEach(c => observer.observe(c));
+
+      // Navigation
+      document.getElementById('nextBtn').addEventListener('click', () => {
+        for(let i=0;i<30;i++) createTear();
+        document.body.style.transition = 'opacity 0.8s';
+        document.body.style.opacity = '0';
+        setTimeout(() => window.location.href = 'gift.html', 900);
+      });
+    </script>
+  </body>
+</html>

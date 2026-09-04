@@ -1,0 +1,425 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Happy Teacher's Day Phool</title>
+    <link href="https://fonts.googleapis.com/css2?family=Great+Vibes&family=Pacifico&family=Dancing+Script:wght@700&family=Playfair+Display:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet" />
+    <style>
+      * { margin: 0; padding: 0; box-sizing: border-box; }
+
+      body {
+        min-height: 100vh;
+        overflow-x: hidden;
+        background: linear-gradient(135deg, #0f0c29 0%, #302b63 50%, #24243e 100%);
+        font-family: 'Playfair Display', serif;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        position: relative;
+      }
+
+      /* Floating particles */
+      .particle {
+        position: fixed;
+        border-radius: 50%;
+        pointer-events: none;
+        animation: floatUp linear infinite;
+        z-index: 1;
+      }
+      @keyframes floatUp {
+        0% { transform: translateY(100vh) scale(0); opacity: 0; }
+        10% { opacity: 1; }
+        90% { opacity: 1; }
+        100% { transform: translateY(-10vh) scale(1); opacity: 0; }
+      }
+
+      /* Happy tears */
+      .tear {
+        position: fixed;
+        width: 12px;
+        height: 18px;
+        background: linear-gradient(to bottom, rgba(255,255,255,0.8), rgba(173,216,230,0.6));
+        border-radius: 50% 50% 50% 50% / 60% 60% 40% 40%;
+        top: -30px;
+        z-index: 100;
+        animation: tearFall linear forwards;
+        filter: blur(0.5px);
+        box-shadow: 0 0 8px rgba(173,216,230,0.5);
+      }
+      @keyframes tearFall {
+        0% { transform: translateY(0) scale(0.5); opacity: 0; }
+        10% { opacity: 1; transform: scale(1); }
+        80% { opacity: 0.8; }
+        100% { transform: translateY(105vh) scale(0.3); opacity: 0; }
+      }
+
+      /* Phool - Flower Petals */
+      .petal {
+        position: fixed;
+        top: -40px;
+        z-index: 50;
+        pointer-events: none;
+        animation: petalFall linear forwards;
+      }
+      @keyframes petalFall {
+        0% { transform: translateY(0) rotate(0deg) translateX(0); opacity: 0; }
+        10% { opacity: 1; }
+        50% { transform: translateY(50vh) rotate(180deg) translateX(40px); }
+        100% { transform: translateY(105vh) rotate(360deg) translateX(-30px); opacity: 0.3; }
+      }
+
+      /* Stars */
+      .star {
+        position: fixed;
+        width: 3px;
+        height: 3px;
+        background: #fff;
+        border-radius: 50%;
+        animation: twinkle 2s infinite alternate;
+        z-index: 0;
+      }
+      @keyframes twinkle {
+        0% { opacity: 0.2; transform: scale(1); }
+        100% { opacity: 1; transform: scale(1.5); }
+      }
+
+      /* Main card */
+      .card {
+        background: rgba(255,255,255,0.08);
+        backdrop-filter: blur(20px);
+        border: 1px solid rgba(255,255,255,0.15);
+        border-radius: 30px;
+        padding: 50px 40px;
+        max-width: 600px;
+        width: 90%;
+        text-align: center;
+        position: relative;
+        z-index: 10;
+        box-shadow: 0 20px 60px rgba(0,0,0,0.4), 0 0 40px rgba(255,215,0,0.1);
+        animation: cardFloat 6s ease-in-out infinite alternate;
+        overflow: hidden;
+      }
+      .card::before {
+        content: '';
+        position: absolute;
+        top: -50%;
+        left: -50%;
+        width: 200%;
+        height: 200%;
+        background: conic-gradient(from 0deg, transparent, rgba(255,215,0,0.05), transparent, rgba(255,182,193,0.05), transparent);
+        animation: rotateGlow 8s linear infinite;
+        z-index: -1;
+      }
+      @keyframes rotateGlow { 100% { transform: rotate(360deg); } }
+      @keyframes cardFloat {
+        0% { transform: translateY(0); box-shadow: 0 20px 60px rgba(0,0,0,0.4); }
+        100% { transform: translateY(-15px); box-shadow: 0 35px 80px rgba(0,0,0,0.5), 0 0 60px rgba(255,215,0,0.15); }
+      }
+
+      .emoji-top { font-size: 3rem; margin-bottom: 10px; animation: bounce 2s ease infinite; }
+
+      h1 {
+        font-family: 'Great Vibes', cursive;
+        font-size: 3.5rem;
+        background: linear-gradient(135deg, #ffd700, #ffb6c1, #fff, #ffd700);
+        background-size: 300% 300%;
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        animation: shimmerText 4s ease infinite;
+        margin-bottom: 10px;
+        line-height: 1.2;
+      }
+      @keyframes shimmerText {
+        0% { background-position: 0% 50%; }
+        50% { background-position: 100% 50%; }
+        100% { background-position: 0% 50%; }
+      }
+
+      .subtitle {
+        font-family: 'Dancing Script', cursive;
+        color: rgba(255,255,255,0.7);
+        font-size: 1.3rem;
+        margin-bottom: 25px;
+        letter-spacing: 2px;
+      }
+
+      .message {
+        font-family: 'Playfair Display', serif;
+        color: rgba(255,255,255,0.85);
+        font-size: 1.15rem;
+        line-height: 1.9;
+        margin-bottom: 30px;
+        font-style: italic;
+      }
+      .message .highlight {
+        color: #ffd700;
+        font-weight: 700;
+        font-style: normal;
+      }
+
+      .tears-emoji {
+        font-size: 2rem;
+        margin: 15px 0;
+        animation: cry 3s ease-in-out infinite;
+      }
+      @keyframes cry {
+        0%, 100% { transform: scale(1); }
+        50% { transform: scale(1.15); }
+      }
+
+      .heart-btn {
+        position: relative;
+        display: inline-block;
+        margin-top: 20px;
+        cursor: pointer;
+        transition: transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+      }
+      .heart-btn:hover { transform: scale(1.12) translateY(-5px); }
+
+      .heart-shape {
+        width: 120px;
+        height: 110px;
+        position: relative;
+        margin: 0 auto;
+        animation: heartPulse 1.5s ease infinite;
+      }
+      .heart-shape::before, .heart-shape::after {
+        content: '';
+        position: absolute;
+        top: 0;
+        width: 65px;
+        height: 100px;
+        border-radius: 65px 65px 0 0;
+        background: linear-gradient(135deg, #ffd700, #ff6b6b);
+        box-shadow: 0 0 30px rgba(255,215,0,0.5);
+      }
+      .heart-shape::before {
+        left: 60px;
+        transform: rotate(-45deg);
+        transform-origin: 0 100%;
+      }
+      .heart-shape::after {
+        left: 0;
+        transform: rotate(45deg);
+        transform-origin: 100% 100%;
+      }
+      @keyframes heartPulse {
+        0%, 100% { transform: scale(1); }
+        50% { transform: scale(1.06); }
+      }
+
+      .heart-text {
+        position: absolute;
+        top: 42%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        z-index: 5;
+        font-family: 'Pacifico', cursive;
+        color: #1a1a2e;
+        font-size: 0.95rem;
+        text-align: center;
+        white-space: nowrap;
+      }
+
+      /* Sound control */
+      .sound-btn {
+        position: fixed;
+        top: 20px;
+        right: 20px;
+        width: 50px;
+        height: 50px;
+        border-radius: 50%;
+        background: rgba(255,255,255,0.1);
+        backdrop-filter: blur(10px);
+        border: 1px solid rgba(255,255,255,0.2);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        cursor: pointer;
+        z-index: 1000;
+        transition: all 0.3s;
+      }
+      .sound-btn:hover { background: rgba(255,215,0,0.2); transform: scale(1.1); }
+      .sound-btn svg { width: 24px; height: 24px; fill: #ffd700; }
+      .hidden { display: none; }
+
+      /* Shimmer border */
+      .shimmer-border {
+        position: absolute;
+        top: 0; left: 0; right: 0; bottom: 0;
+        border-radius: 30px;
+        border: 2px solid transparent;
+        background: linear-gradient(90deg, transparent, rgba(255,215,0,0.4), transparent) border-box;
+        -webkit-mask: linear-gradient(#fff 0 0) padding-box, linear-gradient(#fff 0 0);
+        mask: linear-gradient(#fff 0 0) padding-box, linear-gradient(#fff 0 0);
+        -webkit-mask-composite: xor;
+        mask-composite: exclude;
+        animation: shimmerBorder 3s linear infinite;
+        pointer-events: none;
+      }
+      @keyframes shimmerBorder {
+        0% { background-position: -200% 0; }
+        100% { background-position: 200% 0; }
+      }
+
+      @keyframes bounce {
+        0%, 100% { transform: translateY(0); }
+        50% { transform: translateY(-8px); }
+      }
+
+      @media (max-width: 600px) {
+        h1 { font-size: 2.4rem; }
+        .card { padding: 35px 20px; }
+        .message { font-size: 1rem; }
+      }
+    </style>
+  </head>
+  <body>
+    <div id="stars-container"></div>
+    <div id="particles-container"></div>
+    <div id="tears-container"></div>
+    <div id="petals-container"></div>
+
+    <div class="card">
+      <div class="shimmer-border"></div>
+      <div class="emoji-top">👩‍🏫</div>
+      <h1>Happy Teacher's Day Phool</h1>
+      <div class="subtitle">— A Beautiful Journey of Learning —</div>
+      <div class="tears-emoji">🥹</div>
+      <p class="message">
+        Kuch rishte kitabein nahi padhati, <br>
+        kuch rishte zubaan se nahi bante. <br><br>
+        <span class="highlight">Phool tum woh ho</span> jisne mujhe woh sikhaya <br>
+        jo kisi school ne nahi sikhaya — <br>
+        <span class="highlight">Zindagi jeena, aur khushi se muskurana.</span> 🥹✨
+      </p>
+      <p class="message" style="font-size:1rem; color: rgba(255,255,255,0.6);">
+        Phool tumhari har ek baat, har ek lesson,<br>
+        mere liye ek tohfa hai. 💛
+      </p>
+
+      <div class="heart-btn" id="nextBtn">
+        <div class="heart-shape">
+          <div class="heart-text">Aage Dekho →</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="sound-btn" id="soundBtn">
+      <svg id="playIcon" viewBox="0 0 24 24"><path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02zM14 3.23v2.06c2.89.86 5 3.54 5 6.71s-2.11 5.85-5 6.71v2.06c4.01-.91 7-4.49 7-8.77s-2.99-7.86-7-8.77z"/></svg>
+      <svg id="pauseIcon" class="hidden" viewBox="0 0 24 24"><path d="M6 19h4V5H6zm8-14v14h4V5z"/></svg>
+    </div>
+
+    <audio id="bgSong" loop>
+      <source src="song.mp3" type="audio/mpeg" />
+    </audio>
+
+    <script>
+      // Stars
+      const starsC = document.getElementById('stars-container');
+      for (let i = 0; i < 100; i++) {
+        const s = document.createElement('div');
+        s.className = 'star';
+        s.style.left = Math.random()*100+'%';
+        s.style.top = Math.random()*100+'%';
+        s.style.animationDuration = (Math.random()*3+1)+'s';
+        s.style.animationDelay = Math.random()*3+'s';
+        s.style.width = s.style.height = (Math.random()*3+1)+'px';
+        starsC.appendChild(s);
+      }
+
+      // Floating particles
+      const partC = document.getElementById('particles-container');
+      const pColors = ['#ffd700','#ffb6c1','#fff','#ff6b6b','#87ceeb','#dda0dd'];
+      function createParticle() {
+        const p = document.createElement('div');
+        p.className = 'particle';
+        const size = Math.random()*8+4;
+        p.style.width = p.style.height = size+'px';
+        p.style.left = Math.random()*100+'%';
+        p.style.background = pColors[Math.floor(Math.random()*pColors.length)];
+        p.style.animationDuration = (Math.random()*8+6)+'s';
+        p.style.animationDelay = Math.random()*4+'s';
+        partC.appendChild(p);
+        setTimeout(()=>p.remove(), 14000);
+      }
+      setInterval(createParticle, 400);
+      for(let i=0;i<15;i++) createParticle();
+
+      // Happy tears
+      const tearsC = document.getElementById('tears-container');
+      function createTear() {
+        const t = document.createElement('div');
+        t.className = 'tear';
+        t.style.left = Math.random()*100+'%';
+        t.style.animationDuration = (Math.random()*3+3)+'s';
+        t.style.width = (Math.random()*6+8)+'px';
+        t.style.height = (Math.random()*10+14)+'px';
+        tearsC.appendChild(t);
+        setTimeout(()=>t.remove(), 6000);
+      }
+      setInterval(createTear, 700);
+
+      // Phool - Flower Petals
+      const petalsC = document.getElementById('petals-container');
+      const petalColors = ['#ffb6c1','#ff69b4','#ffc0cb','#ff1493','#db7093','#fff0f5','#ffd1dc','#ffa0b4'];
+      function createPetal() {
+        const p = document.createElement('div');
+        p.className = 'petal';
+        const size = Math.random()*20+12;
+        p.style.left = Math.random()*100+'vw';
+        p.style.animationDuration = (Math.random()*4+5)+'s';
+        p.style.animationDelay = Math.random()*2+'s';
+        const color = petalColors[Math.floor(Math.random()*petalColors.length)];
+        p.innerHTML = `<svg width="${size}" height="${size*1.2}" viewBox="0 0 30 36" fill="${color}" xmlns="http://www.w3.org/2000/svg"><path d="M15 0C15 0 30 12 30 22C30 30 23 36 15 36C7 36 0 30 0 22C0 12 15 0 15 0Z" opacity="0.85"/><ellipse cx="15" cy="20" rx="4" ry="6" fill="${color}" opacity="0.5"/></svg>`;
+        petalsC.appendChild(p);
+        setTimeout(()=>p.remove(), 9000);
+      }
+      setInterval(createPetal, 600);
+      for(let i=0;i<8;i++) createPetal();
+
+      // Music
+      const bgSong = document.getElementById('bgSong');
+      const soundBtn = document.getElementById('soundBtn');
+      const playIcon = document.getElementById('playIcon');
+      const pauseIcon = document.getElementById('pauseIcon');
+      bgSong.volume = 0.5;
+
+      function tryPlay() {
+        bgSong.play().then(() => {
+          playIcon.classList.add('hidden');
+          pauseIcon.classList.remove('hidden');
+        }).catch(() => {});
+      }
+
+      soundBtn.addEventListener('click', () => {
+        if (bgSong.paused) {
+          bgSong.play().then(() => {
+            playIcon.classList.add('hidden');
+            pauseIcon.classList.remove('hidden');
+          }).catch(() => {});
+        } else {
+          bgSong.pause();
+          playIcon.classList.remove('hidden');
+          pauseIcon.classList.add('hidden');
+        }
+      });
+
+      // Try autoplay
+      tryPlay();
+      document.addEventListener('click', () => { if(bgSong.paused) tryPlay(); }, { once: true });
+
+      // Navigation
+      document.getElementById('nextBtn').addEventListener('click', () => {
+        // Burst effect
+        for(let i=0;i<40;i++) createTear();
+        for(let i=0;i<20;i++) createParticle();
+        document.querySelector('.card').style.transform = 'scale(0.9) rotate(-2deg)';
+        document.querySelector('.card').style.opacity = '0';
+        document.querySelector('.card').style.transition = 'all 0.8s ease';
+        setTimeout(() => window.location.href = 'memories.html', 900);
+      });
+    </script>
+  </body>
+</html>
