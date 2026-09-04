@@ -4,29 +4,31 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Happy Birthday Phool</title>
-<link href="https://fonts.googleapis.com/css2?family=Great+Vibes&family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Great+Vibes&family=Poppins:wght@300;400;600&family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,400;1,700&display=swap" rel="stylesheet">
 <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
 <style>
 *{margin:0;padding:0;box-sizing:border-box}
+:root{--golden-glow:#d4a44c}
 body{height:100vh;overflow:hidden;background:#0a0a1a;font-family:'Poppins',sans-serif}
 canvas#bg{position:fixed;top:0;left:0;width:100%;height:100%;z-index:0}
 
-/* Curtain */
-.curtain{position:fixed;top:0;left:0;width:100%;height:100%;z-index:100;display:flex;pointer-events:none}
-.curtain-left,.curtain-right{width:50%;height:100%;position:relative;overflow:hidden}
-.curtain-left{background:linear-gradient(135deg,#1a0a2e,#2d1b69)}
-.curtain-right{background:linear-gradient(135deg,#2d1b69,#1a0a2e)}
-.curtain-left::after,.curtain-right::after{content:'';position:absolute;top:0;width:100%;height:100%;background:repeating-linear-gradient(90deg,transparent,transparent 40px,rgba(255,215,0,0.03) 40px,rgba(255,215,0,0.03) 80px)}
-.curtain-left .fold,.curtain-right .fold{position:absolute;top:0;width:60px;height:100%;background:linear-gradient(90deg,rgba(0,0,0,0.3),transparent,rgba(0,0,0,0.2))}
-.curtain-left .fold{right:0}
-.curtain-right .fold{left:0}
-.curtain-left .tassel,.curtain-right .tassel{position:absolute;top:20px;width:40px;height:80px}
-.curtain-left .tassel{right:30px}
-.curtain-right .tassel{left:30px}
-.curtain-left .tassel::before,.curtain-right .tassel::before{content:'';position:absolute;top:0;left:50%;transform:translateX(-50%);width:20px;height:20px;background:radial-gradient(circle,#ffd700,#b8860b);border-radius:50%;box-shadow:0 0 15px rgba(255,215,0,0.5)}
-.curtain-left .tassel::after,.curtain-right .tassel::after{content:'';position:absolute;top:20px;left:50%;transform:translateX(-50%);width:3px;height:50px;background:linear-gradient(to bottom,#ffd700,transparent)}
-.curtain-left .fringe{position:absolute;bottom:0;left:0;right:0;height:40px;background:repeating-linear-gradient(90deg,#ffd700 0px,#ffd700 3px,transparent 3px,transparent 12px);opacity:0.4;mask:linear-gradient(to bottom,black,transparent);-webkit-mask:linear-gradient(to bottom,black,transparent)}
-.curtain-right .fringe{position:absolute;bottom:0;left:0;right:0;height:40px;background:repeating-linear-gradient(90deg,#ffd700 0px,#ffd700 3px,transparent 3px,transparent 12px);opacity:0.4;mask:linear-gradient(to bottom,black,transparent);-webkit-mask:linear-gradient(to bottom,black,transparent)}
+/* Theatre Curtains - Exact Anupama Style */
+.curtain{position:fixed;top:0;width:50%;height:100vh;z-index:100;overflow:hidden}
+.curtain-left{left:0;transform-origin:left center;background:linear-gradient(90deg,#2a0a0a 0%,#4a1020 40%,#3a0815 100%);border-right:3px solid var(--golden-glow)}
+.curtain-right{right:0;transform-origin:right center;background:linear-gradient(-90deg,#2a0a0a 0%,#4a1020 40%,#3a0815 100%);border-left:3px solid var(--golden-glow)}
+.curtain-fold{position:absolute;top:0;bottom:0;width:33.33%;pointer-events:none}
+.curtain-left .curtain-fold:nth-child(1){left:0;background:linear-gradient(90deg,rgba(0,0,0,0.3),transparent)}
+.curtain-left .curtain-fold:nth-child(2){left:33.33%;background:linear-gradient(90deg,transparent,rgba(0,0,0,0.15),transparent)}
+.curtain-left .curtain-fold:nth-child(3){left:66.66%;background:linear-gradient(90deg,transparent,rgba(0,0,0,0.25))}
+.curtain-right .curtain-fold:nth-child(1){right:0;background:linear-gradient(-90deg,rgba(0,0,0,0.3),transparent)}
+.curtain-right .curtain-fold:nth-child(2){right:33.33%;background:linear-gradient(-90deg,transparent,rgba(0,0,0,0.15),transparent)}
+.curtain-right .curtain-fold:nth-child(3){right:66.66%;background:linear-gradient(-90deg,transparent,rgba(0,0,0,0.25))}
+
+/* Curtain Rod */
+#curtain-rod{position:fixed;top:-5px;left:0;right:0;height:12px;z-index:101;background:linear-gradient(180deg,#d4a44c,#b8860b,#d4a44c);border-radius:6px;box-shadow:0 4px 15px rgba(212,164,76,0.4);opacity:0}
+#curtain-rod::before,#curtain-rod::after{content:'';position:absolute;top:-8px;width:24px;height:24px;border-radius:50%;background:radial-gradient(circle at 40% 40%,#f0d060,#b8860b);box-shadow:0 2px 8px rgba(0,0,0,0.3)}
+#curtain-rod::before{left:-12px}
+#curtain-rod::after{right:-12px}
 
 /* Main content behind curtain */
 .main-content{position:fixed;top:0;left:0;width:100%;height:100%;display:flex;justify-content:center;align-items:center;z-index:10}
@@ -58,18 +60,19 @@ h1{font-family:'Great Vibes',cursive;font-size:3.8rem;background:linear-gradient
 <body>
 <canvas id="bg"></canvas>
 
-<!-- Curtain -->
-<div class="curtain" id="curtain">
-<div class="curtain-left">
-<div class="fold"></div>
-<div class="tassel"></div>
-<div class="fringe"></div>
+<!-- Curtain Rod -->
+<div id="curtain-rod" aria-hidden="true"></div>
+
+<!-- Theatre Curtains -->
+<div id="curtain-left" class="curtain curtain-left" aria-hidden="true">
+<div class="curtain-fold"></div>
+<div class="curtain-fold"></div>
+<div class="curtain-fold"></div>
 </div>
-<div class="curtain-right">
-<div class="fold"></div>
-<div class="tassel"></div>
-<div class="fringe"></div>
-</div>
+<div id="curtain-right" class="curtain curtain-right" aria-hidden="true">
+<div class="curtain-fold"></div>
+<div class="curtain-fold"></div>
+<div class="curtain-fold"></div>
 </div>
 
 <!-- Content behind curtain -->
@@ -136,19 +139,20 @@ tryPlay();
 document.getElementById('openHint').style.opacity='0';
 setTimeout(()=>document.getElementById('openHint').style.display='none',300);
 
-// Animate curtain opening
-gsap.to('.curtain-left',{x:'-100%',duration:1.5,ease:'power3.inOut'});
-gsap.to('.curtain-right',{x:'100%',duration:1.5,ease:'power3.inOut'});
+// Animate curtain rod appearing
+gsap.to('#curtain-rod',{opacity:1,duration:0.5,ease:'power2.out'});
 
-// Reveal card
+// Animate curtains opening - Exact Anupama style
+gsap.to('#curtain-left',{x:'-105%',duration:2.5,ease:'power4.inOut'},0.3);
+gsap.to('#curtain-right',{x:'105%',duration:2.5,ease:'power4.inOut'},0.3);
+
+// Reveal card after curtains open
 setTimeout(()=>{
 gsap.to('#card',{opacity:1,y:0,duration:1.2,ease:'power3.out'});
-},800);
+},2500);
 }
 
 document.getElementById('openHint').addEventListener('click',openCurtain);
-
-// Also open on any click if not opened
 document.addEventListener('click',(e)=>{
 if(!opened&&e.target.closest('.sound-btn'))return;
 if(!opened)openCurtain();
