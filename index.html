@@ -49,30 +49,32 @@ canvas#bg{position:fixed;top:0;left:0;width:100%;height:100%;z-index:0}
 #curtain-rod::before{left:-12px}
 #curtain-rod::after{right:-12px}
 
-/* Main content */
-.main-content{position:fixed;top:0;left:0;width:100%;height:100%;display:flex;justify-content:center;align-items:center;z-index:10}
-.card{background:var(--glass-bg);backdrop-filter:blur(30px);border:1px solid var(--glass-border);border-radius:24px;padding:50px 40px;max-width:520px;width:90%;text-align:center;opacity:0;transform:translateY(30px)}
-.badge{display:inline-block;background:linear-gradient(135deg,var(--soft-pink),var(--rose-gold));color:#fff;padding:6px 20px;border-radius:30px;font-size:0.75rem;font-weight:600;letter-spacing:2px;text-transform:uppercase;margin-bottom:20px;font-family:var(--font-body)}
-h1{font-family:var(--font-script);font-size:3.8rem;background:linear-gradient(135deg,var(--golden-glow),var(--rose-gold-light),var(--golden-glow));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;margin-bottom:8px}
-.subtitle{color:var(--text-muted);font-size:0.9rem;font-family:var(--font-elegant);font-weight:300;letter-spacing:4px;text-transform:uppercase;margin-bottom:25px}
-.message{color:var(--text-light);font-size:1.05rem;font-family:var(--font-elegant);line-height:1.9;margin-bottom:25px;font-weight:300}
-.message strong{color:var(--golden-glow);font-weight:600}
-.divider{width:50px;height:2px;background:linear-gradient(90deg,transparent,var(--golden-glow),transparent);margin:20px auto}
-.enter-btn{display:inline-block;padding:16px 50px;background:linear-gradient(135deg,var(--rose-gold),var(--soft-pink));border:none;border-radius:50px;color:#fff;font-family:var(--font-body);font-size:1rem;font-weight:500;cursor:pointer;letter-spacing:1px;transition:all 0.4s cubic-bezier(0.175,0.885,0.32,1.275);box-shadow:0 8px 30px rgba(183,110,121,0.3)}
-.enter-btn:hover{transform:translateY(-3px) scale(1.05);box-shadow:0 12px 40px rgba(183,110,121,0.5)}
-.age-badge{position:absolute;top:-20px;right:-10px;width:70px;height:70px;background:linear-gradient(135deg,var(--soft-pink),var(--rose-gold));border-radius:50%;display:flex;align-items:center;justify-content:center;font-family:var(--font-script);font-size:1.8rem;color:#fff;box-shadow:0 4px 20px rgba(183,110,121,0.5);animation:pulse 2s ease infinite}
-@keyframes pulse{0%,100%{transform:scale(1)}50%{transform:scale(1.1)}}
+/* Opening content */
+.opening-content{position:fixed;top:0;left:0;width:100%;height:100%;display:flex;flex-direction:column;justify-content:center;align-items:center;z-index:10;text-align:center;padding:20px}
+.fade-element{opacity:0;transform:translateY(30px)}
+.star-text{font-size:3rem;margin-bottom:20px}
+.elegant-text{font-family:var(--font-elegant);font-size:clamp(1.2rem,3vw,2rem);font-weight:300;letter-spacing:4px;color:var(--text-muted);margin-bottom:10px}
+.grand-text{font-family:var(--font-display);font-size:clamp(2.5rem,7vw,5rem);font-weight:900;letter-spacing:10px;background:linear-gradient(135deg,var(--golden-glow),var(--rose-gold-light),var(--golden-glow));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;margin-bottom:20px}
+.name-text{font-family:var(--font-display);font-size:clamp(3rem,10vw,8rem);font-weight:900;letter-spacing:15px;display:inline-block}
+.name-text .letter{display:inline-block;opacity:0}
+.letter[data-letter="P"]{background:linear-gradient(180deg,var(--golden-glow) 0%,var(--rose-gold) 50%,var(--soft-pink) 100%);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+.letter[data-letter="H"]{background:linear-gradient(180deg,var(--rose-gold) 0%,var(--golden-glow) 50%,var(--rose-gold-light) 100%);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+.letter[data-letter="O"]{background:linear-gradient(180deg,var(--soft-pink) 0%,var(--golden-glow) 50%,var(--rose-gold) 100%);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+.letter[data-letter="L"]{background:linear-gradient(180deg,var(--golden-glow) 0%,var(--soft-pink) 50%,var(--rose-gold) 100%);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
 
-/* Hint */
-.open-hint{position:fixed;bottom:30px;left:50%;transform:translateX(-50%);z-index:200;color:var(--text-muted);font-size:0.85rem;font-family:var(--font-elegant);letter-spacing:2px;animation:fadeInOut 2s ease infinite;cursor:pointer;padding:12px 30px;border:1px solid var(--glass-border);border-radius:30px;background:var(--glass-bg);pointer-events:auto}
-@keyframes fadeInOut{0%,100%{opacity:0.4}50%{opacity:1}}
+/* Confetti */
+.confetti-piece{position:fixed;top:-20px;z-index:150;animation:confettiFall linear forwards}
+@keyframes confettiFall{0%{transform:translateY(0) rotate(0);opacity:1}100%{transform:translateY(110vh) rotate(720deg);opacity:0}}
 
 .sound-btn{position:fixed;top:20px;right:20px;width:48px;height:48px;border-radius:50%;background:var(--glass-bg);border:1px solid var(--glass-border);display:flex;align-items:center;justify-content:center;cursor:pointer;z-index:300;transition:all 0.3s}
 .sound-btn:hover{background:rgba(255,215,0,0.15);transform:scale(1.1)}
 .sound-btn svg{width:22px;height:22px;fill:var(--golden-glow)}
 .hidden{display:none}
 
-@media(max-width:600px){h1{font-size:2.6rem}.card{padding:35px 20px}.message{font-size:0.95rem}}
+.enter-btn{display:inline-block;padding:16px 50px;background:linear-gradient(135deg,var(--rose-gold),var(--soft-pink));border:none;border-radius:50px;color:#fff;font-family:var(--font-body);font-size:1rem;font-weight:500;cursor:pointer;letter-spacing:1px;transition:all 0.4s cubic-bezier(0.175,0.885,0.32,1.275);box-shadow:0 8px 30px rgba(183,110,121,0.3);opacity:0;transform:translateY(30px)}
+.enter-btn:hover{transform:translateY(-3px) scale(1.05);box-shadow:0 12px 40px rgba(183,110,121,0.5)}
+
+@media(max-width:600px){.grand-text{letter-spacing:5px}.name-text{letter-spacing:8px}}
 </style>
 </head>
 <body>
@@ -88,29 +90,30 @@ h1{font-family:var(--font-script);font-size:3.8rem;background:linear-gradient(13
 <div class="curtain-fold"></div>
 <div class="curtain-fold"></div>
 </div>
-<div class="main-content">
-<div class="card" id="card">
-<div class="age-badge">🎂</div>
-<div class="badge">Special Day</div>
-<h1>Happy Birthday Phool!</h1>
-<div class="subtitle">— A Celebration of You —</div>
-<div class="divider"></div>
-<p class="message">
-Duniya mein bahut log hain, par <strong>Phool</strong> jaisa dost
-kisi ke paas nahi hota. Aaj tumhara din hai aur main
-chahta hoon ki tumhari har khushi mile. 🎉
-<br><br>
-Tum best ho, yaad rakhna! 💛
-</p>
-<button class="enter-btn" id="nextBtn">Celebrate 🎂</button>
+
+<div class="opening-content">
+<div id="sparkle-text-1" class="fade-element star-text">✨</div>
+<h2 id="someone-special" class="fade-element elegant-text">Someone Special Has a Birthday Today</h2>
+<h1 id="happy-birthday" class="fade-element grand-text">Happy Birthday</h1>
+<div id="name-container" class="fade-element">
+<h1 id="name-phool" class="name-text">
+<span class="letter" data-letter="P">P</span>
+<span class="letter" data-letter="H">H</span>
+<span class="letter" data-letter="O">O</span>
+<span class="letter" data-letter="O">O</span>
+<span class="letter" data-letter="L">L</span>
+</h1>
 </div>
+<button class="enter-btn fade-element" id="nextBtn">Celebrate 🎂</button>
 </div>
-<div class="open-hint" id="openHint">✨ Click to Open ✨</div>
+
 <div class="sound-btn" id="soundBtn">
 <svg id="playIcon" viewBox="0 0 24 24"><path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02zM14 3.23v2.06c2.89.86 5 3.54 5 6.71s-2.11 5.85-5 6.71v2.06c4.01-.91 7-4.49 7-8.77s-2.99-7.86-7-8.77z"/></svg>
 <svg id="pauseIcon" class="hidden" viewBox="0 0 24 24"><path d="M6 19h4V5H6zm8-14v14h4V5z"/></svg>
 </div>
+
 <audio id="bgSong" loop><source src="song.mp3" type="audio/mpeg"></audio>
+
 <script>
 const c=document.getElementById('bg'),x=c.getContext('2d');
 c.width=innerWidth;c.height=innerHeight;
@@ -128,28 +131,45 @@ let b=dots[j],d=Math.hypot(a.x-b.x,a.y-b.y);
 if(d<120){x.beginPath();x.moveTo(a.x,a.y);x.lineTo(b.x,b.y);
 x.strokeStyle=`rgba(183,110,121,${0.1*(1-d/120)})`;x.stroke()}}});
 requestAnimationFrame(draw)}draw();
+
 const bgSong=document.getElementById('bgSong');
-bgSong.volume=0.4;
+bgSong.volume=0.8;
 const soundBtn=document.getElementById('soundBtn');
 const playIcon=document.getElementById('playIcon');
 const pauseIcon=document.getElementById('pauseIcon');
 function tryPlay(){bgSong.play().then(()=>{playIcon.classList.add('hidden');pauseIcon.classList.remove('hidden')}).catch(()=>{})}
 soundBtn.addEventListener('click',()=>{if(bgSong.paused){tryPlay()}else{bgSong.pause();playIcon.classList.remove('hidden');pauseIcon.classList.add('hidden')}});
+
+const colors=['#ff6b6b','#ffd700','#ff69b4','#ee5a24','#87ceeb','#dda0dd','#b76e79','#f8c8dc'];
+function launchConfetti(){for(let i=0;i<60;i++){const p=document.createElement('div');p.className='confetti-piece';
+const s=Math.random()*8+4;p.style.width=s+'px';p.style.height=s+'px';
+p.style.left=Math.random()*100+'vw';
+p.style.background=colors[Math.floor(Math.random()*colors.length)];
+if(Math.random()>0.5)p.style.borderRadius='50%';
+p.style.animationDuration=(Math.random()*3+2)+'s';
+document.body.appendChild(p);setTimeout(()=>p.remove(),5000)}}
+
 let opened=false;
 function openCurtain(){
 if(opened)return;opened=true;
 tryPlay();
-document.getElementById('openHint').style.opacity='0';
-setTimeout(()=>document.getElementById('openHint').style.display='none',300);
-gsap.to('#curtain-rod',{opacity:1,duration:0.5,ease:'power2.out'});
-gsap.to('#curtain-left',{x:'-105%',duration:2.5,ease:'power4.inOut'},0.3);
-gsap.to('#curtain-right',{x:'105%',duration:2.5,ease:'power4.inOut'},0.3);
-setTimeout(()=>{gsap.to('#card',{opacity:1,y:0,duration:1.2,ease:'power3.out'});},2500);
+const tl=gsap.timeline();
+tl.to('#curtain-rod',{opacity:1,duration:0.5,ease:'power2.out'},0)
+.to('#curtain-left',{x:'-105%',duration:2.5,ease:'power4.inOut'},0.3)
+.to('#curtain-right',{x:'105%',duration:2.5,ease:'power4.inOut'},0.3)
+.to('#sparkle-text-1',{opacity:1,y:0,duration:1,ease:'power2.out'},2.5)
+.to('#someone-special',{opacity:1,y:0,duration:1,ease:'power2.out'},3.2)
+.to('#happy-birthday',{opacity:1,y:0,duration:1.2,ease:'back.out(1.5)'},4.2)
+.to('#name-container',{opacity:1,y:0,duration:0.8,ease:'power2.out'},5)
+.from('.letter',{y:50,opacity:0,duration:0.6,stagger:0.12,ease:'back.out(2)'},5.5)
+.to('#nextBtn',{opacity:1,y:0,duration:0.8,ease:'power2.out'},6.5)
+.add(()=>{launchConfetti()},7);
 }
-document.getElementById('openHint').addEventListener('click',openCurtain);
-document.addEventListener('click',(e)=>{if(!opened&&e.target.closest('.sound-btn'))return;if(!opened)openCurtain()});
+
+document.addEventListener('click',(e)=>{if(e.target.closest('.sound-btn'))return;if(!opened)openCurtain()});
+
 document.getElementById('nextBtn').addEventListener('click',()=>{
-gsap.to('#card',{opacity:0,scale:0.9,duration:0.6,ease:'power2.in'});
+gsap.to('.opening-content',{opacity:0,scale:0.9,duration:0.6,ease:'power2.in'});
 setTimeout(()=>window.location.href='cake.html',700);
 });
 </script>
