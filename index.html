@@ -4,33 +4,76 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Happy Birthday Phool</title>
-<link href="https://fonts.googleapis.com/css2?family=Great+Vibes&family=Playfair+Display:wght@400;700&family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Great+Vibes&family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
 <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
 <style>
 *{margin:0;padding:0;box-sizing:border-box}
-body{min-height:100vh;overflow:hidden;background:#0a0a1a;font-family:'Poppins',sans-serif;display:flex;justify-content:center;align-items:center}
+body{height:100vh;overflow:hidden;background:#0a0a1a;font-family:'Poppins',sans-serif}
 canvas#bg{position:fixed;top:0;left:0;width:100%;height:100%;z-index:0}
-.card{position:relative;z-index:10;background:rgba(255,255,255,0.05);backdrop-filter:blur(30px);border:1px solid rgba(255,255,255,0.1);border-radius:24px;padding:50px 40px;max-width:520px;width:90%;text-align:center;opacity:0;transform:translateY(40px)}
-.badge{display:inline-block;background:linear-gradient(135deg,#ff6b6b,#ee5a24);color:#fff;padding:6px 20px;border-radius:30px;font-size:0.8rem;font-weight:600;letter-spacing:2px;text-transform:uppercase;margin-bottom:20px}
+
+/* Curtain */
+.curtain{position:fixed;top:0;left:0;width:100%;height:100%;z-index:100;display:flex;pointer-events:none}
+.curtain-left,.curtain-right{width:50%;height:100%;position:relative;overflow:hidden}
+.curtain-left{background:linear-gradient(135deg,#1a0a2e,#2d1b69)}
+.curtain-right{background:linear-gradient(135deg,#2d1b69,#1a0a2e)}
+.curtain-left::after,.curtain-right::after{content:'';position:absolute;top:0;width:100%;height:100%;background:repeating-linear-gradient(90deg,transparent,transparent 40px,rgba(255,215,0,0.03) 40px,rgba(255,215,0,0.03) 80px)}
+.curtain-left .fold,.curtain-right .fold{position:absolute;top:0;width:60px;height:100%;background:linear-gradient(90deg,rgba(0,0,0,0.3),transparent,rgba(0,0,0,0.2))}
+.curtain-left .fold{right:0}
+.curtain-right .fold{left:0}
+.curtain-left .tassel,.curtain-right .tassel{position:absolute;top:20px;width:40px;height:80px}
+.curtain-left .tassel{right:30px}
+.curtain-right .tassel{left:30px}
+.curtain-left .tassel::before,.curtain-right .tassel::before{content:'';position:absolute;top:0;left:50%;transform:translateX(-50%);width:20px;height:20px;background:radial-gradient(circle,#ffd700,#b8860b);border-radius:50%;box-shadow:0 0 15px rgba(255,215,0,0.5)}
+.curtain-left .tassel::after,.curtain-right .tassel::after{content:'';position:absolute;top:20px;left:50%;transform:translateX(-50%);width:3px;height:50px;background:linear-gradient(to bottom,#ffd700,transparent)}
+.curtain-left .fringe{position:absolute;bottom:0;left:0;right:0;height:40px;background:repeating-linear-gradient(90deg,#ffd700 0px,#ffd700 3px,transparent 3px,transparent 12px);opacity:0.4;mask:linear-gradient(to bottom,black,transparent);-webkit-mask:linear-gradient(to bottom,black,transparent)}
+.curtain-right .fringe{position:absolute;bottom:0;left:0;right:0;height:40px;background:repeating-linear-gradient(90deg,#ffd700 0px,#ffd700 3px,transparent 3px,transparent 12px);opacity:0.4;mask:linear-gradient(to bottom,black,transparent);-webkit-mask:linear-gradient(to bottom,black,transparent)}
+
+/* Main content behind curtain */
+.main-content{position:fixed;top:0;left:0;width:100%;height:100%;display:flex;justify-content:center;align-items:center;z-index:10}
+.card{background:rgba(255,255,255,0.05);backdrop-filter:blur(30px);border:1px solid rgba(255,255,255,0.1);border-radius:24px;padding:50px 40px;max-width:520px;width:90%;text-align:center;opacity:0;transform:translateY(30px)}
+.badge{display:inline-block;background:linear-gradient(135deg,#ff6b6b,#ee5a24);color:#fff;padding:6px 20px;border-radius:30px;font-size:0.75rem;font-weight:600;letter-spacing:2px;text-transform:uppercase;margin-bottom:20px}
 h1{font-family:'Great Vibes',cursive;font-size:3.8rem;background:linear-gradient(135deg,#ffd700,#ff6b6b,#ff69b4,#ffd700);background-size:300%;-webkit-background-clip:text;-webkit-text-fill-color:transparent;animation:shimmer 4s ease infinite;margin-bottom:8px}
 @keyframes shimmer{0%{background-position:0% 50%}50%{background-position:100% 50%}100%{background-position:0% 50%}}
-.subtitle{color:rgba(255,255,255,0.5);font-size:0.95rem;font-weight:300;letter-spacing:4px;text-transform:uppercase;margin-bottom:30px}
-.message{color:rgba(255,255,255,0.75);font-size:1.05rem;line-height:1.9;margin-bottom:30px;font-weight:300}
+.subtitle{color:rgba(255,255,255,0.5);font-size:0.9rem;font-weight:300;letter-spacing:4px;text-transform:uppercase;margin-bottom:25px}
+.message{color:rgba(255,255,255,0.7);font-size:1.05rem;line-height:1.9;margin-bottom:25px;font-weight:300}
 .message strong{color:#ffd700;font-weight:600}
-.divider{width:60px;height:2px;background:linear-gradient(90deg,transparent,#ffd700,transparent);margin:25px auto}
+.divider{width:50px;height:2px;background:linear-gradient(90deg,transparent,#ffd700,transparent);margin:20px auto}
 .enter-btn{display:inline-block;padding:16px 50px;background:linear-gradient(135deg,#ffd700,#ff6b6b);border:none;border-radius:50px;color:#0a0a1a;font-family:'Poppins',sans-serif;font-size:1rem;font-weight:600;cursor:pointer;letter-spacing:1px;transition:all 0.4s cubic-bezier(0.175,0.885,0.32,1.275);box-shadow:0 8px 30px rgba(255,107,107,0.3)}
 .enter-btn:hover{transform:translateY(-3px) scale(1.05);box-shadow:0 12px 40px rgba(255,107,107,0.5)}
 .age-badge{position:absolute;top:-20px;right:-10px;width:70px;height:70px;background:linear-gradient(135deg,#ff6b6b,#ee5a24);border-radius:50%;display:flex;align-items:center;justify-content:center;font-family:'Great Vibes',cursive;font-size:1.8rem;color:#fff;box-shadow:0 4px 20px rgba(255,107,107,0.5);animation:pulse 2s ease infinite}
 @keyframes pulse{0%,100%{transform:scale(1)}50%{transform:scale(1.1)}}
-.sound-btn{position:fixed;top:20px;right:20px;width:48px;height:48px;border-radius:50%;background:rgba(255,255,255,0.08);border:1px solid rgba(255,255,255,0.15);display:flex;align-items:center;justify-content:center;cursor:pointer;z-index:100;transition:all 0.3s}
+
+/* Click to open curtain hint */
+.open-hint{position:fixed;bottom:30px;left:50%;transform:translateX(-50%);z-index:200;color:rgba(255,255,255,0.5);font-size:0.85rem;letter-spacing:2px;animation:fadeInOut 2s ease infinite;cursor:pointer;padding:12px 30px;border:1px solid rgba(255,215,0,0.2);border-radius:30px;background:rgba(255,215,0,0.05);pointer-events:auto}
+@keyframes fadeInOut{0%,100%{opacity:0.4}50%{opacity:1}}
+
+.sound-btn{position:fixed;top:20px;right:20px;width:48px;height:48px;border-radius:50%;background:rgba(255,255,255,0.08);border:1px solid rgba(255,255,255,0.15);display:flex;align-items:center;justify-content:center;cursor:pointer;z-index:300;transition:all 0.3s}
 .sound-btn:hover{background:rgba(255,215,0,0.15);transform:scale(1.1)}
 .sound-btn svg{width:22px;height:22px;fill:#ffd700}
 .hidden{display:none}
+
 @media(max-width:600px){h1{font-size:2.6rem}.card{padding:35px 20px}.message{font-size:0.95rem}}
 </style>
 </head>
 <body>
 <canvas id="bg"></canvas>
+
+<!-- Curtain -->
+<div class="curtain" id="curtain">
+<div class="curtain-left">
+<div class="fold"></div>
+<div class="tassel"></div>
+<div class="fringe"></div>
+</div>
+<div class="curtain-right">
+<div class="fold"></div>
+<div class="tassel"></div>
+<div class="fringe"></div>
+</div>
+</div>
+
+<!-- Content behind curtain -->
+<div class="main-content">
 <div class="card" id="card">
 <div class="age-badge">🎂</div>
 <div class="badge">Special Day</div>
@@ -46,31 +89,37 @@ Tum best ho, yaad rakhna! 💛
 </p>
 <button class="enter-btn" id="nextBtn">Celebrate 🎂</button>
 </div>
+</div>
+
+<div class="open-hint" id="openHint">✨ Click to Open ✨</div>
+
 <div class="sound-btn" id="soundBtn">
 <svg id="playIcon" viewBox="0 0 24 24"><path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02zM14 3.23v2.06c2.89.86 5 3.54 5 6.71s-2.11 5.85-5 6.71v2.06c4.01-.91 7-4.49 7-8.77s-2.99-7.86-7-8.77z"/></svg>
 <svg id="pauseIcon" class="hidden" viewBox="0 0 24 24"><path d="M6 19h4V5H6zm8-14v14h4V5z"/></svg>
 </div>
+
 <audio id="bgSong" loop><source src="song.mp3" type="audio/mpeg"></audio>
+
 <script>
+// Particle background
 const c=document.getElementById('bg'),x=c.getContext('2d');
 c.width=innerWidth;c.height=innerHeight;
 window.onresize=()=>{c.width=innerWidth;c.height=innerHeight};
-let particles=[];
-for(let i=0;i<80;i++)particles.push({x:Math.random()*c.width,y:Math.random()*c.height,vx:(Math.random()-0.5)*0.5,vy:(Math.random()-0.5)*0.5,r:Math.random()*2+0.5,o:Math.random()*0.5+0.2});
+let dots=[];
+for(let i=0;i<80;i++)dots.push({x:Math.random()*c.width,y:Math.random()*c.height,vx:(Math.random()-0.5)*0.5,vy:(Math.random()-0.5)*0.5,r:Math.random()*2+0.5,o:Math.random()*0.5+0.2});
 function draw(){x.clearRect(0,0,c.width,c.height);
-particles.forEach(p=>{p.x+=p.vx;p.y+=p.vy;
-if(p.x<0||p.x>c.width)p.vx*=-1;
-if(p.y<0||p.y>c.height)p.vy*=-1;
-x.beginPath();x.arc(p.x,p.y,p.r,0,Math.PI*2);
-x.fillStyle=`rgba(255,215,0,${p.o})`;x.fill()});
-particles.forEach((a,i)=>{for(let j=i+1;j<particles.length;j++){
-let b=particles[j],d=Math.hypot(a.x-b.x,a.y-b.y);
+dots.forEach(d=>{d.x+=d.vx;d.y+=d.vy;
+if(d.x<0||d.x>c.width)d.vx*=-1;
+if(d.y<0||d.y>c.height)d.vy*=-1;
+x.beginPath();x.arc(d.x,d.y,d.r,0,Math.PI*2);
+x.fillStyle=`rgba(255,215,0,${d.o})`;x.fill()});
+dots.forEach((a,i)=>{for(let j=i+1;j<dots.length;j++){
+let b=dots[j],d=Math.hypot(a.x-b.x,a.y-b.y);
 if(d<120){x.beginPath();x.moveTo(a.x,a.y);x.lineTo(b.x,b.y);
 x.strokeStyle=`rgba(255,107,107,${0.1*(1-d/120)})`;x.stroke()}}});
 requestAnimationFrame(draw)}draw();
 
-gsap.to('#card',{opacity:1,y:0,duration:1.2,ease:'power3.out',delay:0.3});
-
+// Music
 const bgSong=document.getElementById('bgSong');
 bgSong.volume=0.4;
 const soundBtn=document.getElementById('soundBtn');
@@ -78,11 +127,38 @@ const playIcon=document.getElementById('playIcon');
 const pauseIcon=document.getElementById('pauseIcon');
 function tryPlay(){bgSong.play().then(()=>{playIcon.classList.add('hidden');pauseIcon.classList.remove('hidden')}).catch(()=>{})}
 soundBtn.addEventListener('click',()=>{if(bgSong.paused){tryPlay()}else{bgSong.pause();playIcon.classList.remove('hidden');pauseIcon.classList.add('hidden')}});
-document.addEventListener('click',()=>{if(bgSong.paused)tryPlay()},{once:true});
 
+// Curtain opening
+let opened=false;
+function openCurtain(){
+if(opened)return;opened=true;
+tryPlay();
+document.getElementById('openHint').style.opacity='0';
+setTimeout(()=>document.getElementById('openHint').style.display='none',300);
+
+// Animate curtain opening
+gsap.to('.curtain-left',{x:'-100%',duration:1.5,ease:'power3.inOut'});
+gsap.to('.curtain-right',{x:'100%',duration:1.5,ease:'power3.inOut'});
+
+// Reveal card
+setTimeout(()=>{
+gsap.to('#card',{opacity:1,y:0,duration:1.2,ease:'power3.out'});
+},800);
+}
+
+document.getElementById('openHint').addEventListener('click',openCurtain);
+
+// Also open on any click if not opened
+document.addEventListener('click',(e)=>{
+if(!opened&&e.target.closest('.sound-btn'))return;
+if(!opened)openCurtain();
+});
+
+// Navigation
 document.getElementById('nextBtn').addEventListener('click',()=>{
 gsap.to('#card',{opacity:0,scale:0.9,duration:0.6,ease:'power2.in'});
-setTimeout(()=>window.location.href='cake.html',700)});
+setTimeout(()=>window.location.href='cake.html',700);
+});
 </script>
 </body>
 </html>
